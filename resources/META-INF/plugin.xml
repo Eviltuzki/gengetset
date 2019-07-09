@@ -1,0 +1,29 @@
+<idea-plugin>
+    <id>top.eviltuzki.gen-get-set</id>
+    <name>gen-get-set</name>
+    <version>1.0</version>
+    <vendor email="eviltuzki@hotmail.com" url="http://www.eviltuzki.top">Eviltuzki</vendor>
+
+    <description>
+        由于代码规范禁用BeanUtils, 实体类转换赋值复杂
+        插件主要用于根据实体快速生成对应的Get和Set赋值方法
+    </description>
+
+    <change-notes>
+        由于代码规范禁用BeanUtils, 实体类转换赋值复杂
+        插件主要用于根据实体快速生成对应的Get和Set赋值方法
+    </change-notes>
+
+    <idea-version since-build="141.0"/>
+
+
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.template.postfixTemplateProvider language="JAVA" implementationClass="top.eviltuzki.provider.GenSetGetPostfixTemplateProvider"/>
+        <defaultLiveTemplatesProvider implementation="top.eviltuzki.provider.GenSetGetTemplateProvider"/>
+    </extensions>
+
+    <actions>
+    </actions>
+</idea-plugin>
