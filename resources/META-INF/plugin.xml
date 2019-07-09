@@ -2,7 +2,7 @@
     <id>top.eviltuzki.gen-get-set</id>
     <name>gen-get-set</name>
     <version>1.0</version>
-    <vendor email="eviltuzki@hotmail.com" url="http://www.eviltuzki.top">Eviltuzki</vendor>
+    <vendor email="eviltuzki@hotmail.com" url="https://github.com/Eviltuzki/gengetset">Eviltuzki</vendor>
 
     <description>
         由于代码规范禁用BeanUtils, 实体类转换赋值复杂
@@ -10,8 +10,9 @@
     </description>
 
     <change-notes>
-        由于代码规范禁用BeanUtils, 实体类转换赋值复杂
-        插件主要用于根据实体快速生成对应的Get和Set赋值方法
+        没啥变化，第一版,支持以下两个模板
+            1. 支持getset模板 生成 vo.setXXX(po.getXXX());
+            2. 支持genset模板 生成 vo.setXXX();
     </change-notes>
 
     <idea-version since-build="141.0"/>
