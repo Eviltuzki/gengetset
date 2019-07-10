@@ -26,5 +26,8 @@
     </extensions>
 
     <actions>
+        <action id="getset.underlineToCamel" class="top.eviltuzki.action.UnderlineToCamel" text="underlineToCamel" description="underlineToCamel">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
