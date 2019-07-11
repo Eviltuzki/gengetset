@@ -104,3 +104,12 @@ class EntityVo {
     - 直接生成po.setXXX(obj.getXXX)
 - genset模板
     - 直接生成po.setXXX()
+    
+版本
+----------
+
+- V1.0
+    - getset模板
+    - genset模板
+- V1.0.1
+    - 加入驼峰下划线互转按钮   
