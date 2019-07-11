@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>top.eviltuzki.gen-get-set</id>
     <name>gen-get-set</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <vendor email="eviltuzki@hotmail.com" url="https://github.com/Eviltuzki/gengetset">Eviltuzki</vendor>
 
     <description>
@@ -10,9 +10,13 @@
     </description>
 
     <change-notes>
+        V1.0
         没啥变化，第一版,支持以下两个模板
-            1. 支持getset模板 生成 vo.setXXX(po.getXXX());
-            2. 支持genset模板 生成 vo.setXXX();
+        1. 支持getset模板 生成 vo.setXXX(po.getXXX());
+        2. 支持genset模板 生成 vo.setXXX();
+
+        v1.0.1
+        加入驼峰下划线互转
     </change-notes>
 
     <idea-version since-build="141.0"/>
@@ -21,13 +25,20 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <codeInsight.template.postfixTemplateProvider language="JAVA" implementationClass="top.eviltuzki.provider.GenSetGetPostfixTemplateProvider"/>
+        <codeInsight.template.postfixTemplateProvider language="JAVA"
+                                                      implementationClass="top.eviltuzki.provider.GenSetGetPostfixTemplateProvider"/>
         <defaultLiveTemplatesProvider implementation="top.eviltuzki.provider.GenSetGetTemplateProvider"/>
     </extensions>
 
     <actions>
-        <action id="getset.underlineToCamel" class="top.eviltuzki.action.UnderlineToCamel" text="underlineToCamel" description="underlineToCamel">
-            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        <action id="getset.underlineToCamel" icon="PluginIcons.U2C" class="top.eviltuzki.action.UnderlineToCamel"
+                text="下划线转驼峰" description="下划线转驼峰">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
         </action>
+        <action id="getset.camelToUnderline" icon="PluginIcons.C2U" class="top.eviltuzki.action.CamelToUnderline"
+                text="驼峰转下划线" description="驼峰转下划线">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+        </action>
+
     </actions>
 </idea-plugin>

@@ -3,9 +3,11 @@ package top.eviltuzki.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.psi.JavaPsiFacade;
 
 public class UnderlineToCamel extends AnAction {
 
@@ -17,37 +19,44 @@ public class UnderlineToCamel extends AnAction {
             String text = model.getSelectedText();
             String result = underlineToCamel(text);
             Document document = editor.getDocument();
-            String documentText = document.getText();
-            String replace = documentText.substring(0,model.getSelectionStart()) + result + documentText.substring(model.getSelectionEnd());
-            document.setText(replace);
+            WriteCommandAction.runWriteCommandAction(e.getProject(), new Runnable() {
+                @Override
+                public void run() {
+                    document.replaceString(model.getSelectionStart(),model.getSelectionEnd(),result);
+                }
+            });
         }catch (Exception ex){
             //ignore
         }
     }
 
-    public static final char UNDERLINE = '_';
-    public static String underlineToCamel(String param) {
-        if (param == null || "".equals(param.trim())) {
+    private static String underlineToCamel(String name) {
+        StringBuilder result = new StringBuilder();
+        // 快速检查
+        if (name == null || name.isEmpty()) {
+            // 没必要转换
             return "";
+        } else if (!name.contains("_")) {
+            // 不含下划线，仅将首字母小写
+            return name.substring(0, 1).toLowerCase() + name.substring(1);
         }
-        int len = param.length();
-        StringBuilder sb = new StringBuilder(len);
-        Boolean flag = false; // "_" 后转大写标志,默认字符前面没有"_"
-        for (int i = 0; i < len; i++) {
-            char c = param.charAt(i);
-            if (c == UNDERLINE) {
-                flag = true;
-                continue;   //标志设置为true,跳过
+        // 用下划线将原始字符串分割
+        String camels[] = name.split("_");
+        for (String camel :  camels) {
+            // 跳过原始字符串中开头、结尾的下换线或双重下划线
+            if (camel.isEmpty()) {
+                continue;
+            }
+            // 处理真正的驼峰片段
+            if (result.length() == 0) {
+                // 第一个驼峰片段，全部字母都小写
+                result.append(camel.toLowerCase());
             } else {
-                if (flag == true) {
-                    //表示当前字符前面是"_" ,当前字符转大写
-                    sb.append(Character.toUpperCase(param.charAt(i)));
-                    flag = false;  //重置标识
-                } else {
-                    sb.append(Character.toLowerCase(param.charAt(i)));
-                }
+                // 其他的驼峰片段，首字母大写
+                result.append(camel.substring(0, 1).toUpperCase());
+                result.append(camel.substring(1).toLowerCase());
             }
         }
-        return sb.toString();
+        return result.toString();
     }
 }
