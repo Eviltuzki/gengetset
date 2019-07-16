@@ -16,16 +16,22 @@ public class UnderlineToCamel extends AnAction {
         try {
             Editor editor = e.getData(DataKeys.EDITOR);
             SelectionModel model = editor.getSelectionModel();
-            String text = model.getSelectedText();
-            String result = underlineToCamel(text);
             Document document = editor.getDocument();
             WriteCommandAction.runWriteCommandAction(e.getProject(), new Runnable() {
                 @Override
                 public void run() {
-                    document.replaceString(model.getSelectionStart(),model.getSelectionEnd(),result);
+                    int[] starts = model.getBlockSelectionStarts();
+                    int[] ends = model.getBlockSelectionEnds();
+                    if (starts.length == ends.length) {
+                        for (int i = starts.length - 1; i >= 0; i--) {
+                            String substring = document.getText().substring(starts[i], ends[i]);
+                            String result = underlineToCamel(substring);
+                            document.replaceString(starts[i], ends[i], result);
+                        }
+                    }
                 }
             });
-        }catch (Exception ex){
+        } catch (Exception ex) {
             //ignore
         }
     }
@@ -42,7 +48,7 @@ public class UnderlineToCamel extends AnAction {
         }
         // 用下划线将原始字符串分割
         String camels[] = name.split("_");
-        for (String camel :  camels) {
+        for (String camel : camels) {
             // 跳过原始字符串中开头、结尾的下换线或双重下划线
             if (camel.isEmpty()) {
                 continue;

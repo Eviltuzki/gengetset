@@ -15,13 +15,20 @@ public class CamelToUnderline extends AnAction {
         try {
             Editor editor = e.getData(DataKeys.EDITOR);
             SelectionModel model = editor.getSelectionModel();
-            String text = model.getSelectedText();
-            String result = camelToUnderline(text);
             Document document = editor.getDocument();
             WriteCommandAction.runWriteCommandAction(e.getProject(), new Runnable() {
                 @Override
                 public void run() {
-                    document.replaceString(model.getSelectionStart(), model.getSelectionEnd(), result);
+                    int[] starts = model.getBlockSelectionStarts();
+                    int[] ends = model.getBlockSelectionEnds();
+                    if (starts.length == ends.length){
+                        for (int i = starts.length - 1; i >= 0; i--) {
+                            String substring = document.getText().substring(starts[i], ends[i]);
+                            String result = camelToUnderline(substring);
+                            document.replaceString(starts[i], ends[i], result);
+                        }
+                    }
+
                 }
             });
         } catch (Exception ex) {
