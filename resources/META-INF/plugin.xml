@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>top.eviltuzki.gen-get-set</id>
     <name>gen-get-set</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="eviltuzki@hotmail.com" url="https://github.com/Eviltuzki/gengetset">Eviltuzki</vendor>
 
     <description>
@@ -17,6 +17,9 @@
 
         v1.0.1
         加入驼峰下划线互转
+
+        v1.0.2
+        支持批量转换
     </change-notes>
 
     <idea-version since-build="141.0"/>
